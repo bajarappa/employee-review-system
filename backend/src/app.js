@@ -2,8 +2,19 @@ import express from "express";
 import authRoutes from "./routes/authRoutes.js"; // Authentication routes
 import adminRoutes from "./routes/adminRoutes.js"; // Admin routes
 import employeeRoutes from "./routes/employeeRoutes.js"; // Employee routes
+import cors from "cors"; // Import CORS
 
 const app = express();
+
+// Allow requests from specific origin (frontend at localhost:5173)
+const corsOptions = {
+  origin: "http://localhost:5173", // Frontend URL (replace with your actual frontend URL in production)
+  methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+  allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+};
+
+// Apply CORS middleware globally
+app.use(cors(corsOptions));
 
 // Middleware to parse incoming JSON requests
 app.use(express.json());

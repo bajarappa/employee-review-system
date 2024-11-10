@@ -1,5 +1,14 @@
 import express from "express";
-import { addEmployee, assignReview } from "../controllers/adminController.js";
+import {
+  addEmployee,
+  addOrUpdateReview,
+  assignReview,
+  promoteToAdmin,
+  removeEmployee,
+  updateEmployee,
+  viewEmployees,
+  viewReviews,
+} from "../controllers/adminController.js";
 import {
   authenticateToken,
   authorizeAdmin,
@@ -11,8 +20,22 @@ const router = express.Router();
 router.use(authenticateToken); // Ensure only authenticated users can access these routes
 router.use(authorizeAdmin); // Ensure the authenticated user has an "admin" role
 
+// // Admin routes
+// router.post("/employees", addEmployee); // Add a new employee
+// router.post("/reviews/assign", assignReview); // Assign a review to an employee
 // Admin routes
-router.post("/employees", addEmployee); // Add a new employee
-router.post("/reviews/assign", assignReview); // Assign a review to an employee
 
+// Employee routes
+router.post("/employee/add", addEmployee);
+router.put("/employee/update/:id", updateEmployee);
+router.delete("/employee/remove/:id", removeEmployee);
+router.get("/employees", viewEmployees);
+
+// Review routes
+router.post("/review", addOrUpdateReview);
+router.get("/reviews", viewReviews);
+
+// Admin routes
+router.post("/review/assign", assignReview);
+router.post("/employee/promote", promoteToAdmin);
 export default router;
